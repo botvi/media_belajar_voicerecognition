@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menuju Masjid Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Load font TimKid */
+        @font-face {
+            font-family: 'TimKid';
+            src: url('assets/font/TimKid.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+       body {
+            font-family: 'TimKid', sans-serif;
+            background-image: url('assets/img/bgbermain.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed; /* Menjadikan gambar latar belakang tetap saat digulir */
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Mengisi tinggi viewport */
+        }
+
+        /* Style untuk area permainan */
+        #gameArea {
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+            background-image: url('assets/img/bgmenujumasjid.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            border: 5px solid #c8ff95;
+            overflow: hidden;
+        }
+
+        /* Style untuk pemain */
+        .player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('assets/img/player.png');
+            background-size: cover;
+            border-radius: 50%;
+            transition: top 0.2s, left 0.2s; /* Smooth transition */
+        }
+
+        /* Style untuk tujuan */
+        .goal {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('assets/img/masjid.png');
+            background-size: cover;
+            border-radius: 50%;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        /* Style untuk rintangan */
+        .obstacle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('assets/img/obstacle.png');
+            background-size: cover;
+            transition: top 1s, left 1s; /* Smooth transition */
+        }
+
+        /* Style untuk tombol kontrol */
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .controls button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            #gameArea {
+                width: 90vw;
+                height: 70vh;
+            }
+
+            .controls button {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #gameArea {
+                width: 90vw;
+                height: 60vh;
+            }
+
+            .controls button {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-8 col-md-10">
+                <a href="bermain.html"><img src="assets/btn/btn_kembali.png" height="40px" alt=""></a>
+<br>
+                <h1 id="levelText">Level 1</h1>
+
+                <div id="gameArea">
+                    <div class="player" id="player"></div>
+                    <div class="goal" id="goal"></div>
+                    <!-- Obstacles will be dynamically added -->
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="controls" id="controlsDesktop">
+                    <div>
+                        <button id="up">↑</button>
+                    </div>
+                    <div>
+                        <button id="left">←</button>
+                        <button id="down">↓</button>
+                        <button id="right">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const goal = document.getElementById('goal');
+        const gameArea = document.getElementById('gameArea');
+        const levelText = document.getElementById('levelText');
+        let obstacles = [];
+        let currentLevel = 1; // Variable untuk melacak level saat ini
+
+        let playerPos = { top: 0, left: 0 };
+        let intervalId;
+
+        // Function untuk menampilkan SweetAlert saat halaman dimuat pertama kali
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Tahukah Kamu..',
+                text: '"Seseorang yang berjalan ke masjid, maka tiap langkah kakinya akan diberikan satu pahala, dihapuskan satu dosa, dan dinaikkan satu derajat oleh Allah SWT" (HR. Ibnu Majah dan Muslim).',
+                confirmButtonText: 'Mulai Game'
+            });
+        });
+
+        // Function untuk menggerakkan pemain menggunakan arrow keys di desktop
+        function handleArrowKeys(event) {
+            const key = event.key;
+            if (key === 'ArrowUp') {
+                movePlayer('up');
+            } else if (key === 'ArrowDown') {
+                movePlayer('down');
+            } else if (key === 'ArrowLeft') {
+                movePlayer('left');
+            } else if (key === 'ArrowRight') {
+                movePlayer('right');
+            }
+        }
+
+        function movePlayer(direction) {
+            switch (direction) {
+                case 'up':
+                    playerPos.top -= 30;
+                    break;
+                case 'down':
+                    playerPos.top += 30;
+                    break;
+                case 'left':
+                    playerPos.left -= 30;
+                    break;
+                case 'right':
+                    playerPos.left += 30;
+                    break;
+            }
+
+            playerPos.top = Math.max(0, Math.min(playerPos.top, gameArea.clientHeight - player.clientHeight));
+            playerPos.left = Math.max(0, Math.min(playerPos.left, gameArea.clientWidth - player.clientWidth));
+
+            player.style.top = playerPos.top + 'px';
+            player.style.left = playerPos.left + 'px';
+
+            checkCollision();
+            checkGoal();
+        }
+
+        function checkCollision() {
+            const playerRect = player.getBoundingClientRect();
+
+            obstacles.forEach(obstacle => {
+                const obstacleRect = obstacle.getBoundingClientRect();
+
+                if (
+                    playerRect.top < obstacleRect.bottom &&
+                    playerRect.bottom > obstacleRect.top &&
+                    playerRect.left < obstacleRect.right &&
+                    playerRect.right > obstacleRect.left
+                ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Waduhhh!',
+                        text: 'Hati-hati banyak godaan !',
+                        confirmButtonText: 'Restart Level'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            resetLevel();
+                            // Memuat ulang halaman setelah mengatur ulang level
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        }
+
+        function checkGoal() {
+            const playerRect = player.getBoundingClientRect();
+            const goalRect = goal.getBoundingClientRect();
+
+            if (
+                playerRect.top < goalRect.bottom &&
+                playerRect.bottom > goalRect.top &&
+                playerRect.left < goalRect.right &&
+                playerRect.right > goalRect.left
+            ) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Selamat!',
+                    text: 'Kamu sampai ke masjid!',
+                    confirmButtonText: 'Level Selanjutnya'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        currentLevel++;
+                        if (currentLevel <= 3) {
+                            startLevel(currentLevel);
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Kamu memenangkan permainan!',
+                                text: 'Kamu menyelesaikan semua level.',
+                                confirmButtonText: 'Play Again'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    restartGame();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        function startLevel(level) {
+            resetLevel();
+            createObstacle(level);
+            moveObstacles();
+            updateLevelText(level);
+        }
+
+        function resetLevel() {
+            playerPos = { top: 0, left: 0 };
+            player.style.top = playerPos.top + 'px';
+            player.style.left = playerPos.left + 'px';
+
+            obstacles.forEach(obstacle => {
+                obstacle.remove();
+            });
+            obstacles = [];
+        }
+
+        function restartGame() {
+            currentLevel = 1;
+            startLevel(currentLevel);
+            updateLevelText(currentLevel);
+        }
+
+        function createObstacle(level) {
+            let numObstacles = level; // Contoh: semakin tinggi level, semakin banyak rintangan
+            for (let i = 0; i < numObstacles; i++) {
+                const obstacle = document.createElement('div');
+                obstacle.classList.add('obstacle');
+                obstacle.style.top = Math.random() * (gameArea.clientHeight - 50) + 'px';
+                obstacle.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+                gameArea.appendChild(obstacle);
+                obstacles.push(obstacle);
+            }
+        }
+
+        function moveObstacles() {
+            intervalId = setInterval(() => {
+                obstacles.forEach(obstacle => {
+                    obstacle.style.top = Math.random() * (gameArea.clientHeight - 50) + 'px';
+                    obstacle.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+                });
+            }, 4000);
+        }
+
+        function updateLevelText(level) {
+            levelText.textContent = `Level ${level}`;
+        }
+
+        // Mulai level pertama saat halaman dimuat
+        startLevel(currentLevel);
+
+        // Event listeners untuk kontrol pemain
+        document.getElementById('up').addEventListener('click', () => movePlayer('up'));
+        document.getElementById('down').addEventListener('click', () => movePlayer('down'));
+        document.getElementById('left').addEventListener('click', () => movePlayer('left'));
+        document.getElementById('right').addEventListener('click', () => movePlayer('right'));
+
+        // Fungsi untuk menampilkan atau menyembunyikan tombol kontrol berdasarkan ukuran layar
+        function adjustControls() {
+            const controlsDesktop = document.getElementById('controlsDesktop');
+            if (window.innerWidth <= 768) {
+                controlsDesktop.style.display = 'block';
+                // Hapus event listener untuk keyboard saat dalam mode mobile
+                window.removeEventListener('keydown', handleArrowKeys);
+            } else {
+                controlsDesktop.style.display = 'none';
+                // Tambahkan event listener untuk keyboard saat dalam mode desktop
+                window.addEventListener('keydown', handleArrowKeys);
+            }
+        }
+
+        // Panggil fungsi adjustControls saat halaman dimuat dan ketika ukuran layar berubah
+        document.addEventListener('DOMContentLoaded', adjustControls);
+        window.addEventListener('resize', adjustControls);
+    </script>
+</body>
+</html>

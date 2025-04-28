@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Menghafal Hijaiyah</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Load font TimKid */
+        @font-face {
+            font-family: 'TimKid';
+            src: url('assets/font/TimKid.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+       /* Apply font to body and other elements */
+       body {
+            font-family: 'TimKid', sans-serif;
+            background-image: url('assets/img/bgbelajar.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed; /* Menjadikan gambar latar belakang tetap saat digulir */
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Mengisi tinggi viewport */
+        }
+
+        /* Style untuk huruf Hijaiyah */
+        .hijaiyah-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .hijaiyah-item {
+            font-size: 2rem;
+            width: 100px;
+            height: 150px;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .hijaiyah-item h1 {
+            font-size: 4rem;
+            color: #ffffff;
+
+        }
+
+        .hijaiyah-item:active {
+            transform: scale(1.1);
+        }
+
+        /* Style untuk card dengan efek blur */
+        .card-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .btn-kembali img {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .btn-kembali img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .card-container {
+                padding: 10px;
+            }
+
+            .hijaiyah-item {
+                font-size: 1.5rem;
+                width: 80px;
+                height: 120px;
+                margin: 5px;
+                padding: 15px;
+            }
+
+            .hijaiyah-item h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-container {
+                padding: 5px;
+            }
+
+            .hijaiyah-item {
+                font-size: 1.2rem;
+                width: 60px;
+                height: 100px;
+                margin: 3px;
+                padding: 10px;
+            }
+
+            .hijaiyah-item h1 {
+                font-size: 3.2rem;
+            }
+
+            .rotate-message h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-2">
+    <!-- Konten Hijaiyah -->
+    <div class="container card-container mt-5">
+        <h1 class="text-center" style="color: #ffff66;-webkit-text-stroke: 1px black;
+">MENGHAFAL HIJAIYAH</h1>
+        <div class="text-center">
+            <div id="questionBox" class="mb-3"></div>
+            <div id="answerDisplay" class="text-light" style="font-size: 15px; -webkit-text-stroke: 1px black;"></div>
+        </div>
+        <div class="hijaiyah-container" id="optionsBox"></div>
+        <div class="text-center btn-kembali">
+            <a href="belajar.html"><img src="assets/btn/btn_kembali.png" height="80px" alt=""></a>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const hijaiyahLetters = [
+            { letter: 'ا', name: 'alif', sound: 'assets/soundhijaiyah/aliff.wav' },
+            { letter: 'ب', name: 'ba\'', sound: 'assets/soundhijaiyah/baa.wav' },
+            { letter: 'ت', name: 'ta\'', sound: 'assets/soundhijaiyah/taa.wav' },
+            { letter: 'ث', name: 'tsa\'', sound: 'assets/soundhijaiyah/saa.wav' },
+            { letter: 'ج', name: 'jim', sound: 'assets/soundhijaiyah/jimm.wav' },
+            { letter: 'ح', name: 'ha\'', sound: 'assets/soundhijaiyah/ha.wav' },
+            { letter: 'خ', name: 'kho\'', sound: 'assets/soundhijaiyah/khoo.wav' },
+            { letter: 'د', name: 'dal', sound: 'assets/soundhijaiyah/dall.wav' },
+            { letter: 'ذ', name: 'dzal', sound: 'assets/soundhijaiyah/dzal.wav' },
+            { letter: 'ر', name: 'ro\'', sound: 'assets/soundhijaiyah/roo.wav' }
+        ];
+
+        let currentQuestion = {};
+        let answeredLetters = [];
+
+        function playSound(audioSrc) {
+            const audio = new Audio(audioSrc);
+            audio.play();
+        }
+
+        function showQuestion() {
+            if (answeredLetters.length === hijaiyahLetters.length) {
+                Swal.fire({
+                    title: 'Kamu Hebat!',
+                    text: 'Semua huruf telah dihafal dengan benar!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    document.getElementById('questionBox').innerHTML = '<h2>Kamu Hebat!</h2>';
+                    document.getElementById('optionsBox').innerHTML = '';
+                });
+                return;
+            }
+
+            const remainingLetters = hijaiyahLetters.filter(letter => !answeredLetters.includes(letter.letter));
+            const randomIndex = Math.floor(Math.random() * remainingLetters.length);
+            currentQuestion = remainingLetters[randomIndex];
+
+            document.getElementById('questionBox').innerHTML = `
+                <h1>${currentQuestion.name}</h1><br>
+                <button onclick="playSound('${currentQuestion.sound}')" class="btn btn-warning">Putar Suara</button>
+            `;
+        }
+
+        function showOptions() {
+            const shuffledLetters = hijaiyahLetters.sort(() => 0.5 - Math.random());
+            const optionsBox = document.getElementById('optionsBox');
+            optionsBox.innerHTML = '';
+
+            shuffledLetters.forEach(item => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'hijaiyah-item btn btn-primary';
+                optionDiv.innerHTML = `<h1>${item.letter}</h1>`;
+                optionDiv.onclick = () => checkAnswer(item);
+                optionsBox.appendChild(optionDiv);
+            });
+        }
+
+        function checkAnswer(selectedItem) {
+            const answerDisplay = document.getElementById('answerDisplay');
+            if (selectedItem.letter === currentQuestion.letter) {
+                answerDisplay.innerHTML = `<h1>${selectedItem.letter}</h1>`;
+                playSound('assets/sound/tepatsekali.mp3');
+                answeredLetters.push(selectedItem.letter);
+
+                setTimeout(() => {
+                    answerDisplay.innerHTML = '';
+                    showQuestion();
+                    showOptions();
+                }, 1500);
+            } else {
+                playSound('assets/sound/cobalagi.mp3');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showQuestion();
+            showOptions();
+        });
+    </script>
+</body>
+</html>

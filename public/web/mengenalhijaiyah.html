@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <title>Mengenal Hijaiyah</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+
+        /* Load font TimKid */
+        @font-face {
+            font-family: 'TimKid';
+            src: url('assets/font/TimKid.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'TimKid', sans-serif;
+            background-image: url('assets/img/bgbelajar.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed; /* Menjadikan gambar latar belakang tetap saat digulir */
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Mengisi tinggi viewport */
+        }
+        /* Style untuk pesan rotasi */
+        .rotate-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .rotate-message h1 {
+            font-size: 2rem;
+        }
+        /* Style untuk background */
+        body {
+background-color: #9999ff;
+margin: 0;
+            padding: 0;
+        }
+        /* Style untuk huruf Hijaiyah */
+        .hijaiyah-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex-direction: row-reverse;
+            margin-top: 50px;
+        }
+        .hijaiyah-item {
+            font-size: 2rem;
+            width: 100px;
+            height: 150px;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .hijaiyah-item span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .hijaiyah-item:active {
+            transform: scale(1.1);
+        }
+        /* Style untuk card dengan efek blur */
+        .card-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .btn-kembali img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .btn-kembali img:hover {
+            transform: scale(1.1);
+        }
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .card-container {
+                padding: 10px;
+            }
+            .hijaiyah-item {
+                font-size: 1.5rem;
+                width: 80px;
+                height: 120px;
+                margin: 5px;
+                padding: 15px;
+            }
+            .hijaiyah-item span {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-container {
+                padding: 5px;
+            }
+            .hijaiyah-item {
+                font-size: 1.2rem;
+                width: 60px;
+                height: 100px;
+                margin: 3px;
+                padding: 10px;
+            }
+            .hijaiyah-item span {
+                font-size: 0.6rem;
+            }
+            .rotate-message h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-2">
+    
+    <!-- Konten Hijaiyah -->
+    <div class="container card-container mt-5">
+        <h1 class="text-center" style="color: #ffff66;">MENGENAL HIJAIYAH</h1>
+        <div class="hijaiyah-container">
+            <div class="hijaiyah-item" style="background-color: #ff9999;" data-sound="assets/soundhijaiyah/aliff.wav">ا <span>alif</span></div>
+            <div class="hijaiyah-item" style="background-color: #ffcc99;" data-sound="assets/soundhijaiyah/baa.wav">ب <span>ba'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ffff99;" data-sound="assets/soundhijaiyah/taa.wav">ت <span>ta'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ccff99;" data-sound="assets/soundhijaiyah/saa.wav">ث <span>tsa'</span></div>
+            <div class="hijaiyah-item" style="background-color: #99ff99;" data-sound="assets/soundhijaiyah/jimm.wav">ج <span>jim</span></div>
+            <div class="hijaiyah-item" style="background-color: #99ffcc;" data-sound="assets/soundhijaiyah/ha.wav">ح <span>ha'</span></div>
+            <div class="hijaiyah-item" style="background-color: #99ffff;" data-sound="assets/soundhijaiyah/khoo.wav">خ <span>kho'</span></div>
+            <div class="hijaiyah-item" style="background-color: #99ccff;" data-sound="assets/soundhijaiyah/dall.wav">د <span>dal</span></div>
+            <div class="hijaiyah-item" style="background-color: #9999ff;" data-sound="assets/soundhijaiyah/dzal.wav">ذ <span>dzal</span></div>
+            <div class="hijaiyah-item" style="background-color: #cc99ff;" data-sound="assets/soundhijaiyah/roo.wav">ر <span>ro'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff99ff;" data-sound="assets/soundhijaiyah/dzai.wav">ز <span>za'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff99cc;" data-sound="assets/soundhijaiyah/sin.wav">س <span>sin</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff6699;" data-sound="assets/soundhijaiyah/syin.wav">ش <span>syin</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff6666;" data-sound="assets/soundhijaiyah/sho.wav">ص <span>sho'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff6666;" data-sound="assets/soundhijaiyah/dhoo.wav">ض <span>dhod</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff9966;" data-sound="assets/soundhijaiyah/thoo.wav">ط <span>tho'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ffcc66;" data-sound="assets/soundhijaiyah/zhoo.wav">ظ <span>zho'</span></div>
+            <div class="hijaiyah-item" style="background-color: #ffff66;" data-sound="assets/soundhijaiyah/ain.wav">ع <span>ain</span></div>
+            <div class="hijaiyah-item" style="background-color: #ccff66;" data-sound="assets/soundhijaiyah/ghain.wav">غ <span>ghoin</span></div>
+            <div class="hijaiyah-item" style="background-color: #99ff66;" data-sound="assets/soundhijaiyah/faa.wav">ف <span>fa'</span></div>
+            <div class="hijaiyah-item" style="background-color: #66ff66;" data-sound="assets/soundhijaiyah/qof.wav">ق <span>qof</span></div>
+            <div class="hijaiyah-item" style="background-color: #66ff99;" data-sound="assets/soundhijaiyah/kaf.wav">ك <span>kaf</span></div>
+            <div class="hijaiyah-item" style="background-color: #66ffcc;" data-sound="assets/soundhijaiyah/lam.wav">ل <span>lam</span></div>
+            <div class="hijaiyah-item" style="background-color: #66ffff;" data-sound="assets/soundhijaiyah/mim.wav">م <span>mim</span></div>
+            <div class="hijaiyah-item" style="background-color: #66ccff;" data-sound="assets/soundhijaiyah/nun.wav">ن <span>nun</span></div>
+            <div class="hijaiyah-item" style="background-color: #6699ff;" data-sound="assets/soundhijaiyah/waw.wav">و <span>waw</span></div>
+            <div class="hijaiyah-item" style="background-color: #9966ff;" data-sound="assets/soundhijaiyah/ha'.wav">ه <span>ha'</span></div>
+            <div class="hijaiyah-item" style="background-color: #cc66ff;" data-sound="assets/soundhijaiyah/lam alif.wav">لا <span>lam alif</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff66ff;" data-sound="assets/soundhijaiyah/hamzah.wav">ء <span>hamzah</span></div>
+            <div class="hijaiyah-item" style="background-color: #ff66cc;" data-sound="assets/soundhijaiyah/yaa.wav">ي <span>ya'</span></div>
+        </div>
+        <div class="text-center btn-kembali">
+        <a href="belajar.html" ><img src="assets/btn/btn_kembali.png" height="80px" alt="" srcset=""></a>
+    </div>
+    </div>
+
+    <!-- Bootstrap 5 JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <!-- JavaScript untuk memeriksa orientasi layar -->
+    <script>
+    
+
+
+        // JavaScript untuk memutar suara saat item diklik
+        document.addEventListener('DOMContentLoaded', function() {
+            var items = document.querySelectorAll('.hijaiyah-item');
+            items.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var sound = item.getAttribute('data-sound');
+                    var audio = new Audio(sound);
+                    audio.play();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
