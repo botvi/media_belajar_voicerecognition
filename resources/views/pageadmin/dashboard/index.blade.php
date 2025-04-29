@@ -4,19 +4,18 @@
     <div class="container-fluid py-4">
 
         <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
+            <div class="col-lg-12 mb-lg-0 mb-4">
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="d-flex flex-column h-100">
-                                    <p class="mb-1 pt-2 text-bold">Built by developers</p>
-                                    <h5 class="font-weight-bolder">Soft UI Dashboard</h5>
-                                    <p class="mb-5">From colors, cards, typography to complex elements, you will find the
-                                        full documentation.</p>
+                                    <p class="mb-1 pt-2 text-bold">Media Pembelajaran</p>
+                                    <h5 class="font-weight-bolder">Interaktif</h5>
+                                    <p class="mb-5">Media pembelajaran interaktif yang dapat diunduh dan digunakan untuk keperluan pembelajaran.</p>
                                     <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto"
-                                        href="javascript:;">
-                                        Read More
+                                        href="/">
+                                        Lihat Media
                                         <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -36,23 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
-                <div class="card h-100 p-3">
-                    <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100"
-                        style="background-image: url('{{ asset('admin') }}/assets/img/ivancik.jpg');">
-                        <span class="mask bg-gradient-dark"></span>
-                        <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                            <h5 class="text-white font-weight-bolder mb-4 pt-2">Work with the rockets</h5>
-                            <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all
-                                about who take the opportunity first.</p>
-                            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                                Read More
-                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
     </div>

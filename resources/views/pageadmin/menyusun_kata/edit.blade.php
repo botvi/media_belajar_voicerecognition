@@ -15,15 +15,16 @@
                         
                         <div class="col-12">
                             <label class="form-label">SOAL</label>
-                            <input type="text" class="form-control text-uppercase" name="soal" value="{{ $menyusunKata->soal }}" required>
+                            <input type="text" class="form-control text-uppercase mb-2" id="soalInput" name="soal" value="{{ $menyusunKata->soal }}" oninput="updateJawaban(this.value)" required>
+                            <button type="button" class="btn btn-primary" onclick="acakHuruf()">Acak Huruf</button>
                         </div>
                         <div class="col-12">
                             <label class="form-label">JAWABAN</label>
-                            <input type="text" class="form-control text-uppercase" name="jawaban" value="{{ $menyusunKata->jawaban }}" required>
+                            <input type="text" class="form-control text-uppercase" id="jawabanInput" name="jawaban" value="{{ $menyusunKata->jawaban }}" required readonly>
                         </div>
 
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary px-5">Update</button>
+                            <button type="submit" class="btn btn-primary px-5">Perbarui</button>
                         </div>
                     </form>
                 </div>
@@ -31,4 +32,25 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+function updateJawaban(value) {
+    document.getElementById('jawabanInput').value = value.toUpperCase();
+}
+
+function acakHuruf() {
+    let input = document.getElementById('soalInput');
+    let text = input.value;
+    if(!text) return;
+    
+    let hurufArray = text.split('');
+    for (let i = hurufArray.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [hurufArray[i], hurufArray[j]] = [hurufArray[j], hurufArray[i]];
+    }
+    input.value = hurufArray.join('').toUpperCase();
+}
+</script>
 @endsection

@@ -18,7 +18,7 @@
 
         body {
             font-family: 'TimKid', sans-serif;
-            background-image: url('{{ asset('web') }}/assets/img/bg-index2.png');
+            background-image: url('{{ asset('web') }}/assets/img/bg-index2.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
