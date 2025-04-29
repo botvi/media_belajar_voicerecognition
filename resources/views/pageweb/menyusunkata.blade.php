@@ -173,6 +173,7 @@
     <script>
         let soalData = [];
         let currentIndex = 0;
+        let score = 0;
 
         // Ambil data soal dari API
         fetch('{{ route("web.getmenyusunkata") }}')
@@ -258,16 +259,19 @@
                     });
                 });
             } else {
+                const finalScore = (score / soalData.length) * 100;
                 Swal.fire({
                     title: 'Selamat!',
-                    text: 'Anda telah menyelesaikan semua soal!',
+                    html: `
+                        <p>Anda telah menyelesaikan semua soal!</p>
+                        <p>Skor kamu: ${finalScore}%</p>
+                    `,
                     icon: 'success',
-                    confirmButtonText: 'Main Lagi'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        currentIndex = 0;
-                        tampilkanSoal();
-                    }
+                    timer: 5000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.reload();
                 });
             }
         }
@@ -287,6 +291,7 @@
 
             if(isFull) {
                 if(userAnswer === soalData[currentIndex].jawaban.toUpperCase()) {
+                    score++;
                     Swal.fire({
                         title: 'Benar!',
                         text: 'Jawaban Anda Benar',

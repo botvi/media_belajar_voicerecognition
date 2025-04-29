@@ -304,16 +304,19 @@
         }
     
         function showFinalResult() {
-            // const finalScore = (score / texts.length) * 100;
+            const finalScore = (score / texts.length) * 100;
             
             Swal.fire({
                 icon: 'success',
                 title: 'Selamat!',
                 html: `
                     <p>Yeayyy,kamu telah menyelesaikan semua soal!</p>
+                    <p>Skor kamu: ${finalScore}%</p>
                 `,
                 allowOutsideClick: false,
-                confirmButtonText: 'Kembali'
+                confirmButtonText: 'Kembali',
+                timer: 5000,
+                timerProgressBar: true
             }).then(() => {
                 window.location.href = "{{ route('web.belajarmembaca') }}";
             });
