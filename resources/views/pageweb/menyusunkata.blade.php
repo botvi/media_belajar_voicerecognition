@@ -103,6 +103,13 @@
             gap: 5px;
         }
 
+        .gambar-soal {
+            max-width: 200px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .card-container {
                 margin: 15px;
@@ -122,6 +129,10 @@
             
             .btn-kembali img {
                 max-height: 50px;
+            }
+
+            .gambar-soal {
+                max-width: 200px;
             }
         }
 
@@ -145,6 +156,10 @@
             .btn-kembali img {
                 max-height: 40px;
             }
+
+            .gambar-soal {
+                max-width: 150px;
+            }
         }
     </style>
 </head>
@@ -159,6 +174,7 @@
                 <div class="text-center mb-4" style="display: none;" id="soal">
                     <h3>Soal: <span id="soal"></span></h3>
                 </div>
+                <img id="gambarSoal" class="gambar-soal" src="" alt="Gambar Soal">
                 <div class="answer-container" id="answerContainer"></div>
                 <div class="letters-container" id="lettersContainer"></div>
             </div>
@@ -194,6 +210,7 @@
         function tampilkanSoal() {
             if (currentIndex < soalData.length) {
                 document.getElementById('soal').textContent = soalData[currentIndex].soal;
+                document.getElementById('gambarSoal').src = '{{ asset("gambar") }}/' + soalData[currentIndex].gambar;
                 
                 const answerContainer = document.getElementById('answerContainer');
                 const lettersContainer = document.getElementById('lettersContainer');

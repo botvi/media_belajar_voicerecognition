@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MenyusunKata;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Illuminate\Support\Facades\File;
 
 class MenyusunKataController extends Controller
 {
@@ -26,9 +26,19 @@ class MenyusunKataController extends Controller
       $request->validate([
          'soal' => 'required',
          'jawaban' => 'required',
+         'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
       ]);
 
-      MenyusunKata::create($request->all());
+      $gambar = $request->file('gambar');
+      $namaGambar = time().'.'.$gambar->getClientOriginalExtension();
+      $gambar->move(public_path('gambar'), $namaGambar);
+
+      MenyusunKata::create([
+         'soal' => $request->soal,
+         'jawaban' => $request->jawaban,
+         'gambar' => $namaGambar
+      ]);
+
       Alert::success('Success', 'Data berhasil disimpan');
       return redirect()->route('menyusun-kata.index');
    }
@@ -45,9 +55,30 @@ class MenyusunKataController extends Controller
       $request->validate([
          'soal' => 'required',
          'jawaban' => 'required',
+         'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
       ]);
 
-      $menyusunKata->update($request->all());
+      if($request->hasFile('gambar')) {
+         // Hapus gambar lama
+         File::delete(public_path('gambar/'.$menyusunKata->gambar));
+         
+         // Upload gambar baru
+         $gambar = $request->file('gambar');
+         $namaGambar = time().'.'.$gambar->getClientOriginalExtension();
+         $gambar->move(public_path('gambar'), $namaGambar);
+         
+         $menyusunKata->update([
+            'soal' => $request->soal,
+            'jawaban' => $request->jawaban,
+            'gambar' => $namaGambar
+         ]);
+      } else {
+         $menyusunKata->update([
+            'soal' => $request->soal,
+            'jawaban' => $request->jawaban
+         ]);
+      }
+
       Alert::success('Success', 'Data berhasil diubah');
       return redirect()->route('menyusun-kata.index');
    }
@@ -55,6 +86,8 @@ class MenyusunKataController extends Controller
    public function destroy($id)
    {
       $menyusunKata = MenyusunKata::find($id);
+      // Hapus file gambar
+      File::delete(public_path('gambar/'.$menyusunKata->gambar));
       $menyusunKata->delete();
       Alert::success('Success', 'Data berhasil dihapus');
       return redirect()->route('menyusun-kata.index');

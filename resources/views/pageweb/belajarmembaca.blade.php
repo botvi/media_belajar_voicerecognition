@@ -81,7 +81,7 @@
         }
 
         #result {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             margin-top: 20px;
             padding: 15px;
             border-radius: 10px;
@@ -258,6 +258,14 @@
                     words.forEach((word, index) => {
                         if (spokenArray.includes(word.toLowerCase())) {
                             correctWords.add(index);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Salah!',
+                                text: 'Coba lagi ya!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                         }
                     });
 

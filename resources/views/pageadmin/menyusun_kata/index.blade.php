@@ -16,6 +16,7 @@
                                     <tr>
                                         <th>Soal</th>
                                         <th>Jawaban</th>
+                                        <th>Gambar</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -24,6 +25,7 @@
                                         <tr>
                                             <td>{{ $item->soal }}</td>
                                             <td>{{ $item->jawaban }}</td>
+                                            <td><img src="{{ asset('gambar/'.$item->gambar) }}" alt="Gambar" class="img-fluid" style="width: 100px; height: 100px;"></td>
                                             <td>
                                                
                                                 <a href="{{ route('menyusun-kata.edit', $item->id) }}"

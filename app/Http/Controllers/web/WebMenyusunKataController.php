@@ -14,7 +14,7 @@ class WebMenyusunKataController extends Controller
 
     public function getMenyusunKata()
     {
-        $menyusunKata = MenyusunKata::select('soal', 'jawaban')->get();
+        $menyusunKata = MenyusunKata::select('soal', 'jawaban', 'gambar')->get();
         return response()->json($menyusunKata);
     }
 }

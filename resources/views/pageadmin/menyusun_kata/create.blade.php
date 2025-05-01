@@ -9,9 +9,12 @@
                     <h6>Tambah Data Menyusun Kata</h6>
                 </div>
                 <div class="card-body px-4 pt-4 pb-4">
-                    <form action="{{ route('menyusun-kata.store') }}" method="POST" class="row g-3">
+                    <form action="{{ route('menyusun-kata.store') }}" method="POST" class="row g-3" enctype="multipart/form-data">
                         @csrf
-                        
+                        <div class="col-12">
+                            <label class="form-label">GAMBAR</label>
+                            <input type="file" class="form-control" id="gambarInput" name="gambar" required>
+                        </div>
                         <div class="col-12">
                             <label class="form-label">SOAL</label>
                             <input type="text" class="form-control text-uppercase mb-2" id="soalInput" name="soal" oninput="updateJawaban(this.value)" required>

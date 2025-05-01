@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class MenyusunKata extends Model
 {
     use HasFactory;
-    protected $fillable = ['soal', 'jawaban'];
+    protected $fillable = ['soal', 'jawaban', 'gambar'];
 }
