@@ -172,6 +172,11 @@
         let texts = [];
         let score = 0;
         let correctWords = new Set();
+        
+        // Tambahkan variabel audio
+        const audioBenar = new Audio('{{ asset("sound/benar.mp3") }}');
+        const audioSalah = new Audio('{{ asset("sound/salah.mp3") }}');
+        const audioSelesai = new Audio('{{ asset("sound/selesai.mp3") }}');
     
         fetch('/getbelajarmembaca')
             .then(response => response.json())
@@ -259,6 +264,7 @@
                         if (spokenArray.includes(word.toLowerCase())) {
                             correctWords.add(index);
                         } else {
+                            audioSalah.play();
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Salah!',
@@ -274,6 +280,7 @@
                     if (correctWords.size === words.length) {
                         score++;
                         recognition.stop();
+                        audioBenar.play();
                         Swal.fire({
                             icon: 'success',
                             title: 'Bagus!',
@@ -313,6 +320,7 @@
     
         function showFinalResult() {
             const finalScore = (score / texts.length) * 100;
+            audioSelesai.play();
             
             Swal.fire({
                 icon: 'success',
