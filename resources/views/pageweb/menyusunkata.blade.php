@@ -186,6 +186,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Tambahkan elemen audio -->
+    <audio id="soundBenar" src="{{ asset('sound/benar.mp3') }}"></audio>
+    <audio id="soundSalah" src="{{ asset('sound/salah.mp3') }}"></audio>
+    <audio id="soundSelesai" src="{{ asset('sound/selesai.mp3') }}"></audio>
+
     <script>
         let soalData = [];
         let currentIndex = 0;
@@ -277,6 +282,8 @@
                 });
             } else {
                 const finalScore = (score / soalData.length) * 100;
+                // Putar suara selesai
+                document.getElementById('soundSelesai').play();
                 Swal.fire({
                     title: 'Selamat!',
                     html: `
@@ -309,6 +316,8 @@
             if(isFull) {
                 if(userAnswer === soalData[currentIndex].jawaban.toUpperCase()) {
                     score++;
+                    // Putar suara benar
+                    document.getElementById('soundBenar').play();
                     Swal.fire({
                         title: 'Benar!',
                         text: 'Jawaban Anda Benar',
@@ -321,6 +330,8 @@
                         }
                     });
                 } else {
+                    // Putar suara salah
+                    document.getElementById('soundSalah').play();
                     // Jika jawaban salah, kembalikan semua huruf ke container
                     const lettersContainer = document.getElementById('lettersContainer');
                     slots.forEach(slot => {
